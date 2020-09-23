@@ -20,14 +20,14 @@ jobs:
           make
           cd $GITHUB_WORKSPACE
           ls -la
-      - name: Build thermometer
+      - name: Create GitHub release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.sha }}
-          release_name: Release ${{ github.sha }}
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
           draft: false
           prerelease: true
       - name: upload ATC_Thermometer.bin to releases
