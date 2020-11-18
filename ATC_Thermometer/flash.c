@@ -5,6 +5,8 @@
 #include "app_config.h"
 #include "drivers/8258/gpio_8258.h"
 
+#include "flash.h"
+
 void erase_mi_data(){
 	uint8_t read=0x00;//ERASE THE MI ID to prevent blocking :D
 	flash_write_page(0x78000, 1, read);

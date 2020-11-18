@@ -4,6 +4,12 @@
 #include "stack/ble/ble.h"
 #include "vendor/common/blt_common.h"
 
+#include "battery.h"
+#include "ble.h"
+#include "flash.h"
+#include "lcd.h"
+#include "sensor.h"
+
 RAM uint32_t last_delay = 0xFFFF0000, last_adv_delay = 0xFFFF0000, last_battery_delay = 0xFFFF0000;
 RAM bool last_smiley;
 int16_t temp = 0;
@@ -76,7 +82,7 @@ void main_loop(){
 		}
 
 		if(meas_count >= measure_interval){
-			read_sensor(&temp,&humi,true);		
+			read_sensor(&temp,&humi);		
 			temp += temp_offset;
 			humi += humi_offset;
 			meas_count=0;
