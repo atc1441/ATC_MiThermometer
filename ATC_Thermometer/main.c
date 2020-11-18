@@ -4,6 +4,8 @@
 #include "stack/ble/ble.h"
 #include "vendor/common/user_config.h"
 
+#include "i2c.h"
+
 extern void user_init_normal();
 extern void user_init_deepRetn();
 extern void main_loop (void);

@@ -7,6 +7,10 @@
 #include "stack/ble/ble.h"
 #include "vendor/common/blt_common.h"
 
+#include "ble.h"
+#include "cmd_parser.h"
+#include "lcd.h"
+
 RAM	uint8_t	ble_connected = 0;
 
 extern uint8_t my_tempVal[2];

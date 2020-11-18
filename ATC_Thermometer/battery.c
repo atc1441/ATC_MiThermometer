@@ -3,6 +3,8 @@
 #include "drivers.h"
 #include "stack/ble/ble.h"
 
+#include "battery.h"
+
 RAM	uint8_t 	lowBattDet_enable = 1;
 	uint8_t     adc_hw_initialized = 0;
 RAM uint16_t    batt_vol_mv;
