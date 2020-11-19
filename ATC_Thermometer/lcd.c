@@ -64,10 +64,9 @@ void show_battery_symbol(bool state){
 		display_buff[1] &= ~0x08;
 }
 
-void show_smiley(uint8_t state){/*0=off, 1=happy, 2=sad*/
+void show_smiley(SmileyType_t state){
 	display_buff[2] &= ~0x07;
-	if(state==1)display_buff[2]|=0x05;
-	else if(state==2)display_buff[2]|=0x06;
+    display_buff[2] |= (state == Smiley_happy ? 0x05 : 0x06);
 }
 
 void show_atc(){

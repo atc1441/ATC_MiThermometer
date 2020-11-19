@@ -54,7 +54,7 @@ void app_enter_ota_mode(void)
 {
 	ota_is_working = 1;
 	bls_ota_setTimeout(5 * 1000000);
-	show_smiley(1);
+	show_smiley(Smiley_happy);
 }
 
 void app_switch_to_indirect_adv(uint8_t e, uint8_t *p, int n)
