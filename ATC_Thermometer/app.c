@@ -131,12 +131,16 @@ void main_loop(){
 		}
 		
 		if(comfort_smiley) {
-            show_smiley(is_comfort(last_temp * 10, last_humi * 100) ? Smiley_happy : Smiley_sad);
+			if(is_comfort(last_temp * 10, last_humi * 100)){
+				show_smiley(1);
+			} else {
+				show_smiley(2);
+			}
 		}
 
 		if(blinking_smiley){//If Smiley should blink do it
-            last_smiley=!last_smiley;
-            show_smiley(last_smiley);
+		last_smiley=!last_smiley;
+		show_smiley(last_smiley);
 		}
 		
 		update_lcd();
