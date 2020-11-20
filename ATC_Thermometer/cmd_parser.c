@@ -29,15 +29,15 @@ void cmd_parser(void * p){
 	}else if(inData == 0xA0){
 		blinking_smiley = false;
 		comfort_smiley = false;
-		show_smiley(0);//Smiley off
+        show_smiley(Smiley_off);
 	}else if(inData == 0xA1){
 		blinking_smiley = false;
 		comfort_smiley = false;
-		show_smiley(1);//Smiley happy
+        show_smiley(Smiley_happy);
 	}else if(inData == 0xA2){ 
 		blinking_smiley = false;
 		comfort_smiley = false;
-		show_smiley(2);//Smiley sad
+        show_smiley(Smiley_sad);
 	}else if(inData == 0xA3){
 		blinking_smiley = false;
 		comfort_smiley = true; // Comfort Indicator
@@ -56,9 +56,9 @@ void cmd_parser(void * p){
 		if(humi_offset<-50)humi_offset=-50;
 		if(humi_offset>50)humi_offset=50;
 	}else if(inData == 0xFC){
-		temp_alarm_point = req->dat[1];//Set temp alarm point value divided by 10 for temp in °C
-		if(temp_alarm_point==0)temp_alarm_point = 1;
-	}else if(inData == 0xFD){
+        //Set temp alarm point value divided by 10 for temp in °C
+        temp_alarm_point = req->dat[1] == 0 ? 1 : req->dat[1];
+    }else if(inData == 0xFD){
 		humi_alarm_point = req->dat[1];//Set humi alarm point
 		if(humi_alarm_point==0)humi_alarm_point = 1;
 		if(humi_alarm_point>50)humi_alarm_point = 50;
