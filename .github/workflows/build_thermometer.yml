@@ -1,0 +1,48 @@
+name: Build ATC_Thermometer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: docker.pkg.github.com/skaldo/telink-sdk/telink-sdk:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build ATC_Thermometer
+        env:
+          TEL_PATH: /opt/Telink_825X_SDK
+        run: |
+          cd ATC_Thermometer
+          make
+          cd $GITHUB_WORKSPACE
+          ls -la
+      - name: Create GitHub release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: true
+      - name: upload ATC_Thermometer.bin to releases
+        id: upload-atc-thermometer-binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ATC_Thermometer.bin
+          asset_name: ATC_Thermometer.bin
+          asset_content_type: application/octet-stream
