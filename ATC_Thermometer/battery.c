@@ -3,6 +3,8 @@
 #include "drivers.h"
 #include "stack/ble/ble.h"
 
+#include "battery.h"
+
 RAM	uint8_t 	lowBattDet_enable = 1;
 	uint8_t     adc_hw_initialized = 0;
 RAM uint16_t    batt_vol_mv;
@@ -77,6 +79,6 @@ return batt_vol_mv;
 uint8_t get_battery_level(uint16_t battery_mv){
 	uint8_t battery_level = (battery_mv-2200)/(31-22);
 	if(battery_level>100)battery_level=100;
-	if(battery_level<0)battery_level=0;
+	if(battery_mv<2200)battery_level=0;
 	return battery_level;
 }

@@ -2,7 +2,7 @@ TEL_CHIP := -DCHIP_TYPE=CHIP_TYPE_8258
 
 LIBS :=  -llt_8258
 
-TEL_PATH := /opt/Telink_825X_SDK
+TEL_PATH ?= ../..
 
 PROJECT_NAME := ATC_Thermometer
 

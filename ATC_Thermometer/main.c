@@ -4,6 +4,8 @@
 #include "stack/ble/ble.h"
 #include "vendor/common/user_config.h"
 
+#include "i2c.h"
+
 extern void user_init_normal();
 extern void user_init_deepRetn();
 extern void main_loop (void);
@@ -26,11 +28,6 @@ _attribute_ram_code_ int main (void)    //must run in ramcode
 	clock_init(SYS_CLK_24M_Crystal);
 #endif
 	blc_app_loadCustomizedParameters();
-	
-	gpio_set_func(GPIO_PB6, AS_GPIO);//LCD on low temp needs this, its an unknown pin going to the LCD controller chip
-	gpio_set_output_en(GPIO_PB6, 1);
-	gpio_set_input_en(GPIO_PB6, 0); 
-	gpio_write(GPIO_PB6, 0); 
 	
 	init_i2c();
 	if( deepRetWakeUp ){
