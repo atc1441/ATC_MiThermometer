@@ -46,17 +46,3 @@ jobs:
           asset_path: ./ATC_Thermometer.bin
           asset_name: ATC_Thermometer.bin
           asset_content_type: application/octet-stream
-      # - name: zip output directory
-      #   uses: montudor/action-zip@v0.1.0
-      #   with:
-      #     args: zip -qq -r output.zip out
-      # - name: upload output directory to releases
-      #   id: upload-output-folder
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./output.zip
-      #     asset_name: output.zip
-      #     asset_content_type: application/zip
