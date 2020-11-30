@@ -10,6 +10,7 @@
 #include "lcd.h"
 #include "sensor.h"
 
+
 RAM uint32_t last_delay = 0xFFFF0000, last_adv_delay = 0xFFFF0000, last_battery_delay = 0xFFFF0000;
 RAM bool last_smiley;
 int16_t temp = 0;
