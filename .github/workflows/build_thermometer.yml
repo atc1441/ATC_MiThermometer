@@ -9,7 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: docker.pkg.github.com/skaldo/telink-sdk/telink-sdk:latest
+    container:
+      image: docker.pkg.github.com/skaldo/telink-sdk/telink-sdk:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout
