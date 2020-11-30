@@ -9,12 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: skaldo/telink-sdk:0.1
+    container: docker.pkg.github.com/skaldo/telink-sdk/telink-sdk:latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build ATC_Thermometer
+        env:
+          TEL_PATH: /opt/Telink_825X_SDK
         run: |
           cd ATC_Thermometer
           make
