@@ -34,6 +34,8 @@ Example: "python3 ATCtelink.py ATC_Thermometer.bin"
 it the flashing fails or no valid COMport can be found you can edit it in the Python script also try to increase the ResetTime, i will try to make that nicer in future!
 So far it turned out that flashing via MAC does not work correctly, i think that is because the data will not get pushed out in real time so the Emulated SWS protocoll gets interrupted.
 
+The UART flasher software uses code base from https://github.com/pvvx/TlsrComSwireWriter. Thanks to pvvx for its awesome work on this !
+
 ## Custom firmware:
 To build the custom firmware on your own follow this guide to get a working TC32 Compiler environment ready where you can add the Custom Mi firmware https://github.com/Ai-Thinker-Open/Telink_825X_SDK use google translate for better reading experience.
 Try to "make" the blink example included in the SDK once to see if the compiling works as it should.
