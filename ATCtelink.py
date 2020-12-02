@@ -2,7 +2,8 @@
  
 ### ComSwireWriter.py ###
 ###    Autor: pvvx    ###
-###	   Edit : Pila    ###
+###    Edited: Aaron Christophel ATCnetz.de    ###
+###    Edit : Pila    ###
  
 import sys
 import struct
