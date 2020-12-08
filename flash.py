@@ -41,9 +41,14 @@ class Flash(object):
             self._services = {}
             for service in services:
                 self._services[str(service.uuid)] = service
-            self._service = self._services['00010203-0405-0607-0809-0a0b0c0d1912']
-            self._writeCharacteristic = self._service.getCharacteristics(forUUID='00010203-0405-0607-0809-0a0b0c0d2b12')[0]
-            self._detectMi()
+            if '00010203-0405-0607-0809-0a0b0c0d1912' in self._services:
+                self._service = self._services['00010203-0405-0607-0809-0a0b0c0d1912']
+                self._writeCharacteristic = self._service.getCharacteristics(forUUID='00010203-0405-0607-0809-0a0b0c0d2b12')[0]
+                self._detectMi()
+            else:
+                print("No Telink device detected.")
+                self.disconnect()
+                sys.exit(-1)
 
     def _detectMi(self):
         self._miEnabled = "ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6" in self._services
