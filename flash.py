@@ -68,7 +68,7 @@ class Flash(object):
             self.disconnect()
             sys.exit(-1)
 
-    def customAction(self):
+    def startFlashing(self):
         self._otaCharSend(bytes([0x00, 0xff]))
         self._otaCharSend(bytes([0x01, 0xff]))
         if self._doTest:
@@ -152,7 +152,7 @@ def main(argv):
     manager = Flash(args.doTest)
     manager.loadFirmware(args.firmware_name)
     manager.connect(args.mac)
-    manager.customAction()
+    manager.startFlashing()
     manager.disconnect()
 
 if __name__ == "__main__":
