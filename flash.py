@@ -43,8 +43,8 @@ class Flash(object):
             for service in services:
                 self._services[str(service.uuid)] = service
             if '00010203-0405-0607-0809-0a0b0c0d1912' in self._services:
-                self._service = self._services['00010203-0405-0607-0809-0a0b0c0d1912']
-                self._writeCharacteristic = self._service.getCharacteristics(forUUID='00010203-0405-0607-0809-0a0b0c0d2b12')[0]
+                service = self._services['00010203-0405-0607-0809-0a0b0c0d1912']
+                self._writeCharacteristic = service.getCharacteristics(forUUID='00010203-0405-0607-0809-0a0b0c0d2b12')[0]
                 self._detectMi()
             else:
                 print("No Telink device detected.")
@@ -61,6 +61,8 @@ class Flash(object):
             sys.exit(-1)
         elif self._customEnabled:
             print("Detected device with valid custom Firmware")
+            service = self._services['00001f10-0000-1000-8000-00805f9b34fb']
+            self._settingsCharacteristics = service.getCharacteristics(forUUID='00001f1f-0000-1000-8000-00805f9b34fb')[0]
         else:
             print("Detected device with not valid Firmware. Can't flash it.")
             self.disconnect()
@@ -119,7 +121,22 @@ class Flash(object):
                 self.disconnect()
                 sys.exit(-1)
 
-
+    def sendCustomSetting(self, data):
+        if self._doTest:
+            for d in data:
+                d = hex(d)[2:]
+                if len(d) == 1:
+                    d = '0' + d
+                print(d, end = "")
+            print()
+        else:
+            try:
+                self._settingsCharacteristics.write(data)
+            except:
+                print(f"Error on sending setting 0x{data.hex()}")
+                self.disconnect()
+                sys.exit(-1)
+            print(f"Settings 0x{data.hex()} was send successful")
 
     def waitForNotifications(self, timeout):
         self._device.waitForNotifications(timeout)
