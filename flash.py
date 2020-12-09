@@ -4,6 +4,7 @@ import bluepy
 import sys
 import time
 import struct
+import argparse
 
 class Flash(object):
     def __init__(self, doTest=False):
@@ -124,17 +125,22 @@ class Flash(object):
         self._device.waitForNotifications(timeout)
 
 
-if len(sys.argv) < 3:
-    print("Usage: flash.py MAC_ADDRESS FIRMWARE_FILE [test]")
-    sys.exit(-1)
+def main(argv):
+    parser = argparse.ArgumentParser(description="Telink Flasher for Mi Thermostat")
+    parser.add_argument("mac",  help="Mi Thermostat MAC address")
+    parser.add_argument("firmware_name",  help="firmware file")
+    parser.add_argument("-t", "--test", dest="doTest", help="enable test mode", action="store_true")
+    args = parser.parse_args()
 
-if len(sys.argv) == 4:
-    doTest = sys.argv[3] == 'test'
-else:
-    doTest = False
+    manager = Flash(args.doTest)
+    manager.loadFirmware(args.firmware_name)
+    manager.connect(args.mac)
+    manager.customAction()
+    manager.disconnect()
 
-manager = Flash(doTest)
-manager.loadFirmware(sys.argv[2])
-manager.connect(sys.argv[1])
-manager.customAction()
-manager.disconnect()
+if __name__ == "__main__":
+    try:
+        main(sys.argv[1:])
+    except Exception as exc:
+        sys.stderr.write("%s\n" % exc)
+        sys.exit(1)
