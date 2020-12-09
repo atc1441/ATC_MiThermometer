@@ -6,8 +6,9 @@ import time
 import struct
 
 class Flash(object):
-    def __init__(self):
+    def __init__(self, doTest=False):
         super().__init__()
+        self._doTest = doTest
         self._firmware = None
         self._device = None
         self._miEnabled = False
@@ -31,10 +32,9 @@ class Flash(object):
         if not self._doTest:
             self._device.disconnect()
 
-    def connect(self, mac, doTest):
-        self._doTest = doTest
-        if doTest:
-            self._customAction()
+    def connect(self, mac):
+        if self._doTest:
+            return
         else:
             self._device = bluepy.btle.Peripheral(mac)
             services = self._device.getServices()
@@ -60,13 +60,12 @@ class Flash(object):
             sys.exit(-1)
         elif self._customEnabled:
             print("Detected device with valid custom Firmware")
-            self._customAction()
         else:
             print("Detected device with not valid Firmware. Can't flash it.")
             self.disconnect()
             sys.exit(-1)
 
-    def _customAction(self):
+    def customAction(self):
         self._otaCharSend(bytes([0x00, 0xff]))
         self._otaCharSend(bytes([0x01, 0xff]))
         if self._doTest:
@@ -126,7 +125,7 @@ class Flash(object):
 
 
 if len(sys.argv) < 3:
-    print("Usage: flash.py MAC_ADDRESS   FIRMWARE_FILE [test]")
+    print("Usage: flash.py MAC_ADDRESS FIRMWARE_FILE [test]")
     sys.exit(-1)
 
 if len(sys.argv) == 4:
@@ -134,7 +133,8 @@ if len(sys.argv) == 4:
 else:
     doTest = False
 
-manager = Flash()
+manager = Flash(doTest)
 manager.loadFirmware(sys.argv[2])
-manager.connect(sys.argv[1], doTest)
+manager.connect(sys.argv[1])
+manager.customAction()
 manager.disconnect()
