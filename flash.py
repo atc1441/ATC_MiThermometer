@@ -37,7 +37,24 @@ class Flash(object):
         if self._doTest:
             return
         else:
-            self._device = bluepy.btle.Peripheral(mac)
+            conTry = 0
+            maxTry = 5
+            self._device = bluepy.btle.Peripheral()
+            print(f"Trying to connect to {mac}")
+            while True:
+                conTry += 1
+                try:
+                    self._device.connect(mac)
+                    break
+                except bluepy.btle.BTLEException as ex:
+                    if conTry <= maxTry:
+                        print(f"{ex}, retrying: {conTry}/{maxTry}")
+                    else:
+                        print(f"{ex}")
+                        self.disconnect()
+                        sys.exit(-1)
+            print(f"Connected to {mac}")
+
             services = self._device.getServices()
             self._services = {}
             for service in services:
