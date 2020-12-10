@@ -4,10 +4,12 @@ import bluepy
 import sys
 import time
 import struct
+import argparse
 
 class Flash(object):
-    def __init__(self):
+    def __init__(self, doTest=False):
         super().__init__()
+        self._doTest = doTest
         self._firmware = None
         self._device = None
         self._miEnabled = False
@@ -31,19 +33,40 @@ class Flash(object):
         if not self._doTest:
             self._device.disconnect()
 
-    def connect(self, mac, doTest):
-        self._doTest = doTest
-        if doTest:
-            self._customAction()
+    def connect(self, mac):
+        if self._doTest:
+            return
         else:
-            self._device = bluepy.btle.Peripheral(mac)
+            conTry = 0
+            maxTry = 5
+            self._device = bluepy.btle.Peripheral()
+            print(f"Trying to connect to {mac}")
+            while True:
+                conTry += 1
+                try:
+                    self._device.connect(mac)
+                    break
+                except bluepy.btle.BTLEException as ex:
+                    if conTry <= maxTry:
+                        print(f"{ex}, retrying: {conTry}/{maxTry}")
+                    else:
+                        print(f"{ex}")
+                        self.disconnect()
+                        sys.exit(-1)
+            print(f"Connected to {mac}")
+
             services = self._device.getServices()
             self._services = {}
             for service in services:
                 self._services[str(service.uuid)] = service
-            self._service = self._services['00010203-0405-0607-0809-0a0b0c0d1912']
-            self._writeCharacteristic = self._service.getCharacteristics(forUUID='00010203-0405-0607-0809-0a0b0c0d2b12')[0]
-            self._detectMi()
+            if '00010203-0405-0607-0809-0a0b0c0d1912' in self._services:
+                service = self._services['00010203-0405-0607-0809-0a0b0c0d1912']
+                self._writeCharacteristic = service.getCharacteristics(forUUID='00010203-0405-0607-0809-0a0b0c0d2b12')[0]
+                self._detectMi()
+            else:
+                print("No Telink device detected.")
+                self.disconnect()
+                sys.exit(-1)
 
     def _detectMi(self):
         self._miEnabled = "ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6" in self._services
@@ -55,13 +78,14 @@ class Flash(object):
             sys.exit(-1)
         elif self._customEnabled:
             print("Detected device with valid custom Firmware")
-            self._customAction()
+            service = self._services['00001f10-0000-1000-8000-00805f9b34fb']
+            self._settingsCharacteristics = service.getCharacteristics(forUUID='00001f1f-0000-1000-8000-00805f9b34fb')[0]
         else:
             print("Detected device with not valid Firmware. Can't flash it.")
             self.disconnect()
             sys.exit(-1)
 
-    def _customAction(self):
+    def startFlashing(self):
         self._otaCharSend(bytes([0x00, 0xff]))
         self._otaCharSend(bytes([0x01, 0xff]))
         if self._doTest:
@@ -114,22 +138,60 @@ class Flash(object):
                 self.disconnect()
                 sys.exit(-1)
 
-
+    def sendCustomSetting(self, data):
+        if self._doTest:
+            for d in data:
+                d = hex(d)[2:]
+                if len(d) == 1:
+                    d = '0' + d
+                print(d, end = "")
+            print()
+        else:
+            try:
+                self._settingsCharacteristics.write(data)
+            except:
+                print(f"Error on sending setting 0x{data.hex()}")
+                self.disconnect()
+                sys.exit(-1)
+            print(f"Settings 0x{data.hex()} was send successful")
 
     def waitForNotifications(self, timeout):
         self._device.waitForNotifications(timeout)
 
 
-if len(sys.argv) < 3:
-    print("Usage: flash.py MAC_ADDRESS   FIRMWARE_FILE [test]")
-    sys.exit(-1)
+def main(argv):
+    parser = argparse.ArgumentParser(description="Telink Flasher for Mi Thermostat")
+    group = parser.add_mutually_exclusive_group(required=True)
+    parser.add_argument("-t", "--test", dest="doTest", help="enable test mode", action="store_true")
+    group.add_argument("-f", "--firmware_file", help="firmware file to flash")
+    group.add_argument("-s", "--setting", help="custom settings strings to send")
+    parser.add_argument("mac", help="Mi Thermostat MAC address")
+    args = parser.parse_args()
 
-if len(sys.argv) == 4:
-    doTest = sys.argv[3] == 'test'
-else:
-    doTest = False
+    manager = Flash(args.doTest)
+    manager.connect(args.mac)
 
-manager = Flash()
-manager.loadFirmware(sys.argv[2])
-manager.connect(sys.argv[1], doTest)
-manager.disconnect()
+    if args.firmware_file:
+        manager.loadFirmware(args.firmware_file)
+        manager.startFlashing()
+    if args.setting:
+        try:
+            # convert "hex" string into an integer
+            setting = int(args.setting, 16)
+            # convert the integer into a bytearray
+            setting = setting.to_bytes(setting.bit_length() // 8, "big")
+        except:
+            print(f"Input '{args.setting}' is not a valid hex string")
+            manager.disconnect()
+            sys.exit(-1)
+        manager.sendCustomSetting(setting)
+
+    manager.disconnect()
+
+
+if __name__ == "__main__":
+    try:
+        main(sys.argv[1:])
+    except Exception as exc:
+        sys.stderr.write("%s\n" % exc)
+        sys.exit(1)
