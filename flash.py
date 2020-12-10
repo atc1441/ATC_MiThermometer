@@ -161,16 +161,33 @@ class Flash(object):
 
 def main(argv):
     parser = argparse.ArgumentParser(description="Telink Flasher for Mi Thermostat")
-    parser.add_argument("mac",  help="Mi Thermostat MAC address")
-    parser.add_argument("firmware_name",  help="firmware file")
+    group = parser.add_mutually_exclusive_group(required=True)
     parser.add_argument("-t", "--test", dest="doTest", help="enable test mode", action="store_true")
+    group.add_argument("-f", "--firmware_file", help="firmware file to flash")
+    group.add_argument("-s", "--setting", help="custom settings strings to send")
+    parser.add_argument("mac", help="Mi Thermostat MAC address")
     args = parser.parse_args()
 
     manager = Flash(args.doTest)
-    manager.loadFirmware(args.firmware_name)
     manager.connect(args.mac)
-    manager.startFlashing()
+
+    if args.firmware_file:
+        manager.loadFirmware(args.firmware_file)
+        manager.startFlashing()
+    if args.setting:
+        try:
+            # convert "hex" string into an integer
+            setting = int(args.setting, 16)
+            # convert the integer into a bytearray
+            setting = setting.to_bytes(setting.bit_length() // 8, "big")
+        except:
+            print(f"Input '{args.setting}' is not a valid hex string")
+            manager.disconnect()
+            sys.exit(-1)
+        manager.sendCustomSetting(setting)
+
     manager.disconnect()
+
 
 if __name__ == "__main__":
     try:
