@@ -40,15 +40,16 @@ So far it turned out that flashing via MAC does not work correctly. I think it's
 The UART flasher software uses code base from https://github.com/pvvx/TlsrComSwireWriter. Thanks to pvvx for the awesome work on this!
 
 ## Custom firmware:
-To build the custom firmware on your own, follow this guide to get a working TC32 Compiler environment ready where you can add the Custom Mi firmware:
+* To build the custom firmware on your own, follow this guide to get a working TC32 Compiler environment ready where you can add the Custom Mi firmware:
 https://github.com/Ai-Thinker-Open/Telink_825X_SDK
 
 Use Google Translate for a better reading experience:
 https://translate.google.com/translate?sl=auto&tl=en&u=https://github.com/Ai-Thinker-Open/Telink_825X_SDK
 
-Try to "make" the blink example included in the SDK once to see if the compiling works as it should.
-You can then copy the folder "ATC_Thermometer" into the example folder and go into that with the terminal. Now do a "make" and it will build the custom firmware.
-The newly created .bin file can then simply be flashed by either the Web Flasher or the USB to UART method.
+* Try to "make" the blink example included in the SDK once to see if the compiling works as it should.
+* You can then copy the folder "ATC_Thermometer" into the example folder and go into that with the terminal.
+* Now do a "make" and it will build the custom firmware.
+* The newly created .bin file can then simply be flashed by either the Web Flasher or the USB to UART method.
 
 Because of the OTA dual bank update method a firmware can be maximum 256kB in size.
 
