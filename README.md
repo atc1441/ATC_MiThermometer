@@ -1,11 +1,11 @@
 # ATC_MiThermometer
-Custom firmware for the Xiaomi Thermometer LYWSD03MMC and Telink Flasher via USB to Serial converter
+Custom firmware for the Xiaomi Thermometer LYWSD03MMC and Telink Flasher via USB to Serial converter.
 
 This repo is made together with this explanation video:(click on it)
 
 [![YoutubeVideo](https://img.youtube.com/vi/NXKzFG61lNs/0.jpg)](https://www.youtube.com/watch?v=NXKzFG61lNs)
 
-It is possible to update the Firmware of the Xiaomi Thermometer OTA with this WEB Tool i wrote:
+It is possible to update the Firmware of the Xiaomi Thermometer OTA with this WEB Tool I wrote:
 https://atc1441.github.io/TelinkFlasher.html
 
 The web flasher does work for many devices that uses the Telink TLSR82** MCUs and it can also be used to reflash the Stock firmware back to the device.
@@ -18,28 +18,32 @@ Thanks to Eduardo Ruiz
 ## OTA
 ### How to flash the custom firmware:
 
-Download the ATC_Thermometer_custom.bin file and open the Web Flasher, connect to the Xiaomi thermometer, searching may take a while as it broadcasts not so often for better battery life, after the connection is successful click on Do Activation to Authorize the Connection, while its doing so you can already select the firmware file. Be careful to select the right one as it's not possible to check the firmware further. Then click on start flashing to flash the new firmware to the Thermometer.
+* Download the ATC_Thermometer_custom.bin file and open the Web Flasher.
+* Connect to the Xiaomi thermometer; searching may take a while as it broadcasts not so often for better battery life.
+* After the connection is successful click on "Do Activation" to Authorize the Connection. While it's doing so you can already select the firmware file. Be careful to select the right one as it's not possible to check the firmware further.
+* Then click on start flashing to flash the new firmware to the Thermometer.
 
-After the flashing is done the device should reboot, if the screen stays off pull the battery out for a short amount of time.
+After the flashing is done, the device should reboot. If the screen stays off, pull the battery out for a short amount of time.
 
-To flash the stock firmware back to the Thermometer just open that one while flashing.
+To flash the stock firmware back to the Thermometer, just open that one while flashing.
 
 ## USB to UART
 ### How to flash the custom firmware or unbrick the device:
 
-To flash new firmware via an standard USB to UART adapter simply connect the Thermometer as seen in the picture "Mi_SWS_Connection.jpg" to the USB to UART converter and run the ATCtelink.py tool with the first command to be the file you want to flash.
+To flash a new firmware via an standard USB to UART adapter simply connect the Thermometer as seen in the picture "Mi_SWS_Connection.jpg" to the USB to UART converter and run the ATCtelink.py tool with the first command to be the file you want to flash.
 
 Example: "python3 ATCtelink.py ATC_Thermometer.bin"
 
-it the flashing fails or no valid COMport can be found you can edit it in the Python script also try to increase the ResetTime, i will try to make that nicer in future!
-So far it turned out that flashing via MAC does not work correctly, i think that is because the data will not get pushed out in real time so the Emulated SWS protocoll gets interrupted.
+If the flashing fails or no valid COMport can be found, you can edit it in the Python script. Also try to increase the ResetTime, I will try to make that nicer in future!
+So far it turned out that flashing via MAC does not work correctly. I think that is because the data will not get pushed out in real time so the Emulated SWS protocol gets interrupted.
 
-The UART flasher software uses code base from https://github.com/pvvx/TlsrComSwireWriter. Thanks to pvvx for its awesome work on this !
+The UART flasher software uses code base from https://github.com/pvvx/TlsrComSwireWriter. Thanks to pvvx for the awesome work on this!
 
 ## Custom firmware:
-To build the custom firmware on your own follow this guide to get a working TC32 Compiler environment ready where you can add the Custom Mi firmware https://github.com/Ai-Thinker-Open/Telink_825X_SDK use google translate for better reading experience.
+To build the custom firmware on your own, follow this guide to get a working TC32 Compiler environment ready where you can add the Custom Mi firmware: https://github.com/Ai-Thinker-Open/Telink_825X_SDK
+Use Google Translate for a better reading experience: https://translate.google.com/translate?sl=auto&tl=en&u=https://github.com/Ai-Thinker-Open/Telink_825X_SDK
 Try to "make" the blink example included in the SDK once to see if the compiling works as it should.
-You can then copy the folder "ATC_Thermometer" into the example folder and go into that with the terminal now do a "make" and it will build the custom firmware.
+You can then copy the folder "ATC_Thermometer" into the example folder and go into that with the terminal. Now do a "make" and it will build the custom firmware.
 The newly created .bin file can then simply be flashed by either the Web Flasher or the USB to UART method.
 
 Because of the OTA dual bank update method a firmware can be maximum 256kB in size.
@@ -57,19 +61,19 @@ These settings will not get saved on power loss, maybe that will change in futur
 
 ### Show battery level in LCD :
 
-Will show Humidity% or Battery% flipping back and forth every 5~6 seconds, with battery symbol at bottom indicated it's battery level
+Will show Humidity% or Battery% flipping back and forth every 5~6 seconds, with battery symbol at bottom indicating its battery level.
 
 
-The battery level will be shown on the LCD every 5-6secdonds indicated by the battery symbol at the humidity display.
+The battery level will be shown on the LCD every 5-6secdonds indicated by the battery symbol next to the humidity display.
 
 0xB1 = Enabled <- Default
 
 0xB0 = Disabled
 
 ### Change display to °F or °C:
-0xFF = Lcd in °F
+0xFF = Temperature in °F
 
-0xCC = Lcd in °C <- Default
+0xCC = Temperature in °C <- Default
 
 ### Blinking smiley:
 0xA0 = Smiley off
@@ -80,7 +84,7 @@ The battery level will be shown on the LCD every 5-6secdonds indicated by the ba
 
 0xA3 = Comfort Indicator
 
-0xAB = Smiley bliking <- Default
+0xAB = Smiley blinking <- Default
 
 ### Advertising type:
 0xAE = Custom <- Default
@@ -104,7 +108,7 @@ Humi = range -50 - +50 % offset
 
 ### Temp or Humi instant advertising
 
-When the temp or Humidity does change to fast between the main loop(5 seconds interval) the Advertising will be instant for that one.
+When the temp or Humidity changes too fast between the main loop (5 seconds interval) the Advertising will be instant for that one.
 
 byte0 0xFC = temp_alarm_point // value divided by 10 for temp in °C
 
@@ -121,7 +125,7 @@ The custom firmware sends every minute an update of advertising data on the UUID
 
 The format is like this: 
 
-Byte 5-10 mac in correct order
+Byte 5-10 MAC in correct order
 
 Byte 11-12 Temperature in int16
 
@@ -144,7 +148,7 @@ Set "Mi like" advertising on custom firmware. The bindkey is not necessary any m
 Details: https://github.com/esphome/feature-requests/issues/552#issuecomment-688049747
 
 ### Stock firmware:
-Inside this .zip can be found the stock firmware to go back
+This .zip contains the stock firmware to go back
 https://github.com/custom-components/sensor.mitemp_bt/files/4022697/d4135e135443ba86e403ecb2af2bf0af_upd_miaomiaoce.sensor_ht.t2.zip
 
 ### Building manual for docker:
