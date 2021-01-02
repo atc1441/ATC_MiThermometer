@@ -34,8 +34,8 @@ To flash a new firmware via an standard USB to UART adapter, simply connect the 
 
 Example: "python3 ATCtelink.py ATC_Thermometer.bin"
 
-If the flashing fails or no valid COMport can be found, you can edit it in the Python script. Also try to increase the ResetTime, I will try to make that nicer in future!
-So far it turned out that flashing via MAC does not work correctly. I think that is because the data will not get pushed out in real time so the Emulated SWS protocol gets interrupted.
+If the flashing fails or no valid COM port can be found, you can edit it in the Python script. Also try to increase the ResetTime, I will try to make that nicer in the future!
+So far it turned out that flashing via MAC does not work correctly. I think it's because the data will not get pushed out in real time so the Emulated SWS protocol gets interrupted.
 
 The UART flasher software uses code base from https://github.com/pvvx/TlsrComSwireWriter. Thanks to pvvx for the awesome work on this!
 
