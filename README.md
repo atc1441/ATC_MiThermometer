@@ -42,6 +42,7 @@ The UART flasher software uses code base from https://github.com/pvvx/TlsrComSwi
 ## Custom firmware:
 To build the custom firmware on your own, follow this guide to get a working TC32 Compiler environment ready where you can add the Custom Mi firmware:
 https://github.com/Ai-Thinker-Open/Telink_825X_SDK
+
 Use Google Translate for a better reading experience:
 https://translate.google.com/translate?sl=auto&tl=en&u=https://github.com/Ai-Thinker-Open/Telink_825X_SDK
 
