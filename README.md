@@ -40,11 +40,11 @@ So far it turned out that flashing via MAC does not work correctly. I think it's
 The UART flasher software uses code base from https://github.com/pvvx/TlsrComSwireWriter. Thanks to pvvx for the awesome work on this!
 
 ## Custom firmware:
-* To build the custom firmware on your own, follow this guide to get a working TC32 Compiler environment ready where you can add the Custom Mi firmware:
-https://github.com/Ai-Thinker-Open/Telink_825X_SDK
+* To build the custom firmware on your own, follow this guide to get a working TC32 Compiler environment ready where you can add the Custom Mi firmware
 
-Use Google Translate for a better reading experience:
-https://translate.google.com/translate?sl=auto&tl=en&u=https://github.com/Ai-Thinker-Open/Telink_825X_SDK
+Chinese: https://github.com/Ai-Thinker-Open/Telink_825X_SDK
+
+Translated with Google Translate: https://translate.google.com/translate?sl=auto&tl=en&u=https://github.com/Ai-Thinker-Open/Telink_825X_SDK
 
 * Try to "make" the blink example included in the SDK once to see if the compiling works as it should.
 * You can then copy the folder "ATC_Thermometer" into the example folder and go into that with the terminal.
