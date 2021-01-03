@@ -63,10 +63,10 @@ Also the BLE name will include the last three bytes of the MAC Address.
 ## Settings in custom firmware:
 The following settings can be sent to the RxTx Characteristics 0x1F10/0x1f1f
 
-These settings will not get saved on power loss, maybe that will change in the future, but normally the battery will be in there for a while.
+These settings will not get saved on power loss. Maybe that will change in the future, but normally the battery will be in there for a while.
 
 ### Show battery level in LCD :
-Will show Battery % (when the battery symbol is displayed at the bottom of the screen) or Humidity % (when the battery symbol is NOT displayed at the bottom of the screen) flipping back and forth every 5~6 seconds.
+Will show Battery % (when the battery symbol is displayed at the bottom of the screen) or Humidity % (when the battery symbol is NOT displayed at the bottom of the screen) alternatively every 5~6 seconds.
 
 0xB1 = Enabled <- Default
 
@@ -109,7 +109,6 @@ so Temp = range -12,8 - + 12,8 °C offset
 Humi = range -50 - +50 % offset
 
 ### Temp or Humi instant advertising
-
 When the temp or Humidity changes too fast between the main loop (5 seconds interval), the Advertising will be instant for that one.
 
 byte0 0xFC = temp_alarm_point // value divided by 10 for temp in °C
@@ -147,7 +146,8 @@ The LYWSD03MMC sensors work directly with ESPHome XiaomiBLE - [xiaomi_lywsd03mmc
 
 Set "Mi like" advertising on custom firmware. The bindkey is not necessary any more as the payload is not encrypted in the custom firmware. However, since the bindkey is a mandatory parameter, you still need to give it a fake one in the config file. It can be anything though, as long as it is formatted like a real one.
 
-Details: https://github.com/esphome/feature-requests/issues/552#issuecomment-688049747
+Details:
+https://github.com/esphome/feature-requests/issues/552#issuecomment-688049747
 
 ### Stock firmware:
 This .zip file contains the stock firmware to go back:
