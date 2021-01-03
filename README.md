@@ -25,7 +25,7 @@ Thanks to Eduardo Ruiz
 
 After the flashing is done, the device should reboot. If the screen stays off, pull the battery out for a short amount of time.
 
-To flash the stock firmware back to the Thermometer, just open the corresponding file for flashing.
+To flash the stock firmware back to the Thermometer, just open the corresponding file (link in the section "Stock firmware" at the bottom of this document) for flashing.
 
 ## USB to UART
 ### How to flash the custom firmware or unbrick the device:
