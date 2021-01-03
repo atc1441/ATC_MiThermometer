@@ -69,7 +69,7 @@ These settings will not get saved on power loss, maybe that will change in the f
 
 Will show Humidity% or Battery% flipping back and forth every 5~6 seconds, with battery symbol at bottom indicating the battery level.
 
-The battery level will be shown on the LCD every 5-6 seconds indicated by the battery symbol below the humidity display.
+The battery level will be shown on the LCD every 5~6 seconds indicated by the battery symbol below the humidity display.
 
 0xB1 = Enabled <- Default
 
@@ -144,7 +144,6 @@ The format of the advertising data is as follow:
 
 Example:
 0x0e, 0x16, 0x1a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xaa, 0xaa, 0xbb, 0xcc, 0xdd, 0xdd, 0x00
-
 
 ## Using custom firmware with ESPHome
 The LYWSD03MMC sensors work directly with ESPHome XiaomiBLE - [xiaomi_lywsd03mmc component](https://esphome.io/components/sensor/xiaomi_ble.html#lywsd03mmc).
