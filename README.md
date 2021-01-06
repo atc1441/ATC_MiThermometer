@@ -5,6 +5,8 @@ This repo is made together with this explanation video:(click on it)
 
 [![YoutubeVideo](https://img.youtube.com/vi/NXKzFG61lNs/0.jpg)](https://www.youtube.com/watch?v=NXKzFG61lNs)
 
+##### Victor @pvvx did some very nice refinigs of this custom firmare so i really suggest on cheking it out and even use his version as it offers many more functions including non-volatile storage and a better low power management https://github.com/pvvx/ATC_MiThermometer
+
 It is possible to update the Firmware of the Xiaomi Thermometer OTA with this WEB Tool I wrote:
 https://atc1441.github.io/TelinkFlasher.html
 
