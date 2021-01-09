@@ -1,0 +1,21 @@
+{
+  "name": "ble",
+  "version": "1.0.0",
+  "description": "Scan thermometers via BLE",
+  "main": "scan-ble.js",
+  "scripts": {
+    "install": "sudo setcap cap_net_raw+eip $(eval readlink -f `which node`)",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bluetooth"
+  ],
+  "author": "Harald Kubota",
+  "license": "ISC",
+  "dependencies": {
+    "@abandonware/noble": "^1.9.2-10",
+    "bluetooth-hci-socket": "npm:@abandonware/bluetooth-hci-socket@^0.5.3-4",
+    "commander": "^6.2.1"
+  },
+  "devDependencies": {}
+}
