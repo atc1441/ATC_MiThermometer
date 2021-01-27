@@ -20,7 +20,7 @@ Thanks to Eduardo Ruiz
 ## OTA
 ### How to flash the custom firmware:
 
-* Download the ATC_Thermometer_custom.bin file and open the Web Flasher.
+* Download the ATC_Thermometer.bin file from the [latest release](https://github.com/atc1441/ATC_MiThermometer/releases) assets and open the Web Flasher.
 * Connect to the Xiaomi thermometer; searching may take a while as it broadcasts not so often for better battery life.
 * After the connection is successful click on "Do Activation" to Authorize the Connection. While it's doing so you can already select the firmware file. Be careful to select the right one as it's not possible to check the firmware further.
 * Click on start flashing to flash the new firmware to the Thermometer.
@@ -67,17 +67,19 @@ The following settings can be sent to the RxTx Characteristics 0x1F10/0x1f1f
 
 These settings will not get saved on power loss. Maybe that will change in the future, but normally the battery will be in there for a while.
 
+The **default value** is denoted by the option being written in **bold**
+
 ### Show battery level in LCD :
 Will show Battery % (when the battery symbol is displayed at the bottom of the screen) or Humidity % (when the battery symbol is NOT displayed at the bottom of the screen) alternatively every 5~6 seconds.
 
-0xB1 = Enabled <- Default
+**0xB1 = Enabled**
 
 0xB0 = Disabled
 
 ### Change display to °F or °C:
 0xFF = Temperature in °F
 
-0xCC = Temperature in °C <- Default
+**0xCC = Temperature in °C**
 
 ### Blinking smiley:
 0xA0 = Smiley off
@@ -86,19 +88,19 @@ Will show Battery % (when the battery symbol is displayed at the bottom of the s
 
 0xA2 = Smiley sad
 
-0xA3 = Comfort Indicator
+**0xA3 = Comfort Indicator**
 
-0xAB = Smiley blinking <- Default
+0xAB = Smiley blinking
 
 ### Advertising type:
-0xAE = Custom <- Default
+**0xAE = Custom**
 
 0xAF = Mi Like
 
 ### Advertising interval
 byte0 0xFE
 
-byte1 0x06 - value times 10 seconds = interval 60 seconds default.
+byte1 0x06 - value times 10 seconds = interval **60 seconds default**.
 
 ### Temp and Humi offset
 byte0 0xFA = Temp offset
@@ -121,7 +123,7 @@ byte1 as int8_t
 
 Temp alarm from 0,1°C to 25,5°C Range <- 0,5°C Default
 
-Humi alarm from 1% to 50% Range <- 5% Default
+Humi alarm from 1% to 50% Range <- **5% Default**
 
 ## Advertising format of the custom firmware:
 The custom firmware sends every minute an update of advertising data on the UUID 0x181A with the Tempereature, Humidity and Battery data.
