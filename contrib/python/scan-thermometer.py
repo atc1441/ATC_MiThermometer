@@ -24,10 +24,10 @@ class ScanDelegate(DefaultDelegate):
         return {
             'timestamp': datetime.now().astimezone().replace(microsecond=0).isoformat(),
             'mac': ":".join(["{:02X}".format(bytes[i]) for i in range(2,8)]),
-            'temperature': (bytes[8] * 16 + bytes[9]) / 10,
+            'temperature': (bytes[8] * 256 + bytes[9]) / 10,
             'humidity': bytes[10],
             'battery_percent': bytes[11],
-            'battery_volt': (bytes[12] * 16 + bytes[13]) / 1000,
+            'battery_volt': (bytes[12] * 256 + bytes[13]) / 1000,
             'count': bytes[14],
         }
 
