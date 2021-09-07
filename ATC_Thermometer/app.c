@@ -41,14 +41,14 @@ RAM uint16_t comfort_y[] = {2000, 1980, 3200, 6000, 8200, 8600, 7700, 3800};
 
 _attribute_ram_code_ bool is_comfort(int16_t t, uint16_t h) {
     bool c = 0;
-    uint8_t npol = sizeof(comfort_x);
-    for (uint8_t i = 0, j = npol - 1; i < npol; j = i++) 
+    uint8_t npol = sizeof(comfort_x) / sizeof(comfort_x[0]);
+    for (uint8_t i = 0, j = npol - 1; i < npol; j = i++)
     {
       if ((
-        (comfort_y[i] < comfort_y[j]) && (comfort_y[i] <= h) && (h <= comfort_y[j]) &&
+        (comfort_y[i] < comfort_y[j]) && (comfort_y[i] < h) && (h <= comfort_y[j]) &&
         ((comfort_y[j] - comfort_y[i]) * (t - comfort_x[i]) > (comfort_x[j] - comfort_x[i]) * (h - comfort_y[i]))
       ) || (
-        (comfort_y[i] > comfort_y[j]) && (comfort_y[j] <= h) && (h <= comfort_y[i]) &&
+        (comfort_y[i] > comfort_y[j]) && (comfort_y[j] < h) && (h <= comfort_y[i]) &&
         ((comfort_y[j] - comfort_y[i]) * (t - comfort_x[i]) < (comfort_x[j] - comfort_x[i]) * (h - comfort_y[i]))
       ))
         c = !c;
