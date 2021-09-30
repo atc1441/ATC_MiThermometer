@@ -32,7 +32,7 @@ To flash the stock firmware back to the Thermometer, just open the corresponding
 ## USB to UART
 ### How to flash the custom firmware or unbrick the device:
 
-To flash a new firmware via an standard USB to UART adapter, simply connect the Thermometer as seen in the picture "Mi_SWS_Connection.jpg" to the USB to UART converter and run the ATCtelink.py tool with the first parameter being the name of the file you want to flash.
+To flash a new firmware via an standard USB to UART adapter, simply connect the Thermometer as seen in the picture [Mi_SWS_Connection.jpg](./Mi_SWS_Connection.jpg) to the USB to UART converter and run the ATCtelink.py tool with the first parameter being the name of the file you want to flash.
 
 Example: "python3 ATCtelink.py ATC_Thermometer.bin"
 
