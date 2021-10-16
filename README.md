@@ -155,7 +155,7 @@ https://github.com/esphome/feature-requests/issues/552#issuecomment-688049747
 
 ### Stock firmware:
 This .zip file contains the stock firmware to go back:
-https://github.com/custom-components/sensor.mitemp_bt/files/4022697/d4135e135443ba86e403ecb2af2bf0af_upd_miaomiaoce.sensor_ht.t2.zip
+https://github.com/pvvx/ATC_MiThermometer/files/7300157/LYWSD03MMC_0130_upd_miaomiaoce.sensor_ht.t2.zip
 
 ### Building manual for docker:
 https://github.com/AlmightyFrog/BuildEnvironmentATCMiThermometer
