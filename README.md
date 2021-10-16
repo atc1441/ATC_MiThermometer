@@ -1,7 +1,7 @@
 # ATC_MiThermometer
 Custom firmware for the Xiaomi Thermometer LYWSD03MMC and Telink Flasher via USB to Serial converter.
 
-### Attention! Xiaomi made new revisions of the LYWSD03MMC Hardware called B1.6 and B1.9, these are not supported at the momemnt by this custom firmware, work is being done to adapt the firmware to them.
+## Attention! Xiaomi made new revisions of the LYWSD03MMC Hardware called B1.6 and B1.9, these are not supported at the momemnt by this custom firmware, work is being done to adapt the firmware to them.
 
 This repo is made together with this explanation video:(click on it)
 
