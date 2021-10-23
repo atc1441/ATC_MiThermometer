@@ -22,7 +22,7 @@ void init_lcd(){
 		lcd_version = 0;
 		i2c_address_lcd = 0x78;
 	}else if(test_i2c_device(0x3E)){// B1.9
-		lcd_version = 0;//later 2
+		lcd_version = 2;
 		i2c_address_lcd = 0x7C;
 	}else{// B1.6 uses UART and is not testable this way
 		lcd_version = 1;
@@ -41,7 +41,19 @@ void init_lcd(){
 		init_lcd_deepsleep();
 	
 	}else if(lcd_version == 2){// B1.9 Hardware
-		//UNKNOWN LCD VERSION
+		send_i2c(i2c_address_lcd,0xEA, 1);	
+		sleep_us(240);
+		send_i2c(i2c_address_lcd, 0xA4, 1);	
+		send_i2c(i2c_address_lcd, 0x9c, 1);	
+		send_i2c(i2c_address_lcd, 0xac, 1);	
+		send_i2c(i2c_address_lcd, 0xbc, 1);	
+		send_i2c(i2c_address_lcd, 0xf0, 1);	
+		send_i2c(i2c_address_lcd, 0xfc, 1);	
+		
+		uint8_t lcd_3E_init_segments[] =  {0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+		send_i2c(i2c_address_lcd,lcd_3E_init_segments, sizeof(lcd_3E_init_segments));
+		
+		send_i2c(i2c_address_lcd, 0xc8, 1);	
 	}		
 	send_to_lcd_long(0x00,0x00,0x00,0x00,0x00,0x00);	
 }
@@ -78,7 +90,8 @@ if(lcd_version == 0){// B1.4 Hardware
 }else if(lcd_version == 1){// B1.6 Hardware
 	uart_send_lcd(byte1,byte2,byte3,byte4,byte5,byte6);
 }else if(lcd_version == 2){// B1.9 Hardware
-//UNKNOWN LCD VERSION
+    uint8_t lcd_set_segments[] =    {0x04,byte1,byte2,0x00,0x00,byte3,byte4,0x00,0x00,byte5,byte6};
+	send_i2c(i2c_address_lcd,lcd_set_segments, sizeof(lcd_set_segments));
 }	
 }
 	
@@ -89,7 +102,8 @@ if(lcd_version == 0){// B1.4 Hardware
 }else if(lcd_version == 1){// B1.6 Hardware
 	uart_send_lcd(byte1,byte2,byte3,byte4,byte5,byte6);
 }else if(lcd_version == 2){// B1.9 Hardware
-//UNKNOWN LCD VERSION
+    uint8_t lcd_set_segments[] =    {0x04,byte1,byte2,0x00,0x00,byte3,byte4,0x00,0x00,byte5,byte6};
+	send_i2c(i2c_address_lcd,lcd_set_segments, sizeof(lcd_set_segments));
 }	
 }
 
