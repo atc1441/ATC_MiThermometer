@@ -12,27 +12,81 @@ const uint8_t lcd_init_cmd[] = {0x80,0x3B,0x80,0x02,0x80,0x0F,0x80,0x95,0x80,0x8
 RAM uint8_t display_buff[6];
 const uint8_t display_numbers[16] = {0xF5,0x05,0xD3,0x97,0x27,0xb6,0xf6,0x15,0xf7,0xb7,0x77,0xe6,0xf0,0xc7,0xf2,0x72};
 
-void init_lcd(){	
+RAM uint8_t lcd_version;
+RAM uint8_t i2c_address_lcd = 0x78; // B1.4 uses Address 0x78 and B1.9 uses 0x7c
 
-	gpio_set_func(GPIO_PB6, AS_GPIO);//LCD on low temp needs this, its an unknown pin going to the LCD controller chip
-	gpio_set_output_en(GPIO_PB6, 0);
-	gpio_set_input_en(GPIO_PB6, 1); 
-	gpio_setup_up_down_resistor(GPIO_PB6, PM_PIN_PULLUP_10K);
 	
-	sleep_us(50000);
+void init_lcd(){
 	
-	send_i2c(0x78,lcd_init_cmd, sizeof(lcd_init_cmd));
+	if(test_i2c_device(0x3C)){// B1.4
+		lcd_version = 0;
+		i2c_address_lcd = 0x78;
+	}else if(test_i2c_device(0x3E)){// B1.9
+		lcd_version = 2;
+		i2c_address_lcd = 0x7C;
+	}else{// B1.6 uses UART and is not testable this way
+		lcd_version = 1;
+	}
+	
+	if(lcd_version == 0){// B1.4 Hardware
+		gpio_set_func(GPIO_PB6, AS_GPIO);//LCD on low temp needs this, its an unknown pin going to the LCD controller chip
+		gpio_set_output_en(GPIO_PB6, 0);
+		gpio_set_input_en(GPIO_PB6, 1); 
+		gpio_setup_up_down_resistor(GPIO_PB6, PM_PIN_PULLUP_10K);	
+		sleep_us(50000);
+		send_i2c(i2c_address_lcd,lcd_init_cmd, sizeof(lcd_init_cmd));
+	
+	}else if(lcd_version == 1){// B1.6 Hardware
+
+		init_lcd_deepsleep();
+	
+	}else if(lcd_version == 2){// B1.9 Hardware
+		//UNKNOWN LCD VERSION
+	}		
 	send_to_lcd_long(0x00,0x00,0x00,0x00,0x00,0x00);	
+}
+
+void init_lcd_deepsleep(){
+	if(lcd_version != 1)
+		return;
+	
+	uart_gpio_set(UART_TX_PD7, UART_RX_PB0);
+	uart_reset();
+	uart_init(61,  9, PARITY_NONE, STOP_BIT_ONE);	
+	uart_dma_enable(0, 0);
+	dma_chn_irq_enable(0, 0);
+	uart_irq_enable(0,0);
+	uart_ndma_irq_triglevel(0,0);
+}
+
+void uart_send_lcd(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5, uint8_t byte6){
+	uint8_t trans_buff[13] = {0x00,0x00,0x00,0x00,0xAA,byte6,byte5,byte4,byte3,byte2,byte1,(byte1 ^byte2 ^byte3 ^byte4 ^byte5 ^byte6),0x55};	
+	for(unsigned char i=0;i<13;i++){
+		uart_ndma_send_byte(trans_buff[i]);
+	}
 }
 	
 void send_to_lcd_long(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5, uint8_t byte6){
+	
+if(lcd_version == 0){// B1.4 Hardware
     uint8_t lcd_set_segments[] =    {0x80,0x40,0xC0,byte1,0xC0,byte2,0xC0,byte3,0xC0,byte4,0xC0,byte5,0xC0,byte6,0xC0,0x00,0xC0,0x00};
-	send_i2c(0x78,lcd_set_segments, sizeof(lcd_set_segments));
+	send_i2c(i2c_address_lcd,lcd_set_segments, sizeof(lcd_set_segments));
+}else if(lcd_version == 1){// B1.6 Hardware
+	uart_send_lcd(byte1,byte2,byte3,byte4,byte5,byte6);
+}else if(lcd_version == 2){// B1.9 Hardware
+//UNKNOWN LCD VERSION
+}	
 }
 	
 void send_to_lcd(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5, uint8_t byte6){
+if(lcd_version == 0){// B1.4 Hardware
     uint8_t lcd_set_segments[] =    {0x80,0x40,0xC0,byte1,0xC0,byte2,0xC0,byte3,0xC0,byte4,0xC0,byte5,0xC0,byte6};
-	send_i2c(0x78,lcd_set_segments, sizeof(lcd_set_segments));
+	send_i2c(i2c_address_lcd,lcd_set_segments, sizeof(lcd_set_segments));
+}else if(lcd_version == 1){// B1.6 Hardware
+	uart_send_lcd(byte1,byte2,byte3,byte4,byte5,byte6);
+}else if(lcd_version == 2){// B1.9 Hardware
+//UNKNOWN LCD VERSION
+}	
 }
 
 void update_lcd(){
