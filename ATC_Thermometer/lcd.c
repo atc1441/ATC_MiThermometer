@@ -22,7 +22,7 @@ void init_lcd(){
 		lcd_version = 0;
 		i2c_address_lcd = 0x78;
 	}else if(test_i2c_device(0x3E)){// B1.9
-		lcd_version = 2;
+		lcd_version = 0;//later 2
 		i2c_address_lcd = 0x7C;
 	}else{// B1.6 uses UART and is not testable this way
 		lcd_version = 1;
@@ -64,6 +64,10 @@ void uart_send_lcd(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, u
 	for(unsigned char i=0;i<13;i++){
 		uart_ndma_send_byte(trans_buff[i]);
 	}
+	while(uart_tx_is_busy())
+	{
+		sleep_us(10);
+	};
 }
 	
 void send_to_lcd_long(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5, uint8_t byte6){
