@@ -62,5 +62,7 @@ void cmd_parser(void * p){
 		humi_alarm_point = req->dat[1];//Set humi alarm point
 		if(humi_alarm_point==0)humi_alarm_point = 1;
 		if(humi_alarm_point>50)humi_alarm_point = 50;
+	}else if(inData == 0xDD){// Set display segments directly
+		send_to_lcd(req->dat[1],req->dat[2],req->dat[3],req->dat[4],req->dat[5],req->dat[6]);
 	}
 }
