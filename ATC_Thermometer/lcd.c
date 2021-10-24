@@ -54,6 +54,7 @@ void init_lcd(){
 		send_i2c(i2c_address_lcd,lcd_3E_init_segments, sizeof(lcd_3E_init_segments));
 		
 		send_i2c(i2c_address_lcd, 0xc8, 1);	
+		return;
 	}		
 	send_to_lcd_long(0x00,0x00,0x00,0x00,0x00,0x00);	
 }
@@ -81,6 +82,13 @@ void uart_send_lcd(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, u
 		sleep_us(10);
 	};
 }
+
+uint8_t reverse(uint8_t revByte) {
+   revByte = (revByte & 0xF0) >> 4 | (revByte & 0x0F) << 4;
+   revByte = (revByte & 0xCC) >> 2 | (revByte & 0x33) << 2;
+   revByte = (revByte & 0xAA) >> 1 | (revByte & 0x55) << 1;
+   return revByte;
+}
 	
 void send_to_lcd_long(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5, uint8_t byte6){
 	
@@ -90,7 +98,7 @@ if(lcd_version == 0){// B1.4 Hardware
 }else if(lcd_version == 1){// B1.6 Hardware
 	uart_send_lcd(byte1,byte2,byte3,byte4,byte5,byte6);
 }else if(lcd_version == 2){// B1.9 Hardware
-    uint8_t lcd_set_segments[] =    {0x04,byte1,byte2,0x00,0x00,byte3,byte4,0x00,0x00,byte5,byte6};
+    uint8_t lcd_set_segments[] =    {0x04,reverse(byte1),reverse(byte2),0x00,0x00,reverse(byte3),reverse(byte4),0x00,0x00,reverse(byte5),reverse(byte6)};
 	send_i2c(i2c_address_lcd,lcd_set_segments, sizeof(lcd_set_segments));
 }	
 }
@@ -102,7 +110,7 @@ if(lcd_version == 0){// B1.4 Hardware
 }else if(lcd_version == 1){// B1.6 Hardware
 	uart_send_lcd(byte1,byte2,byte3,byte4,byte5,byte6);
 }else if(lcd_version == 2){// B1.9 Hardware
-    uint8_t lcd_set_segments[] =    {0x04,byte1,byte2,0x00,0x00,byte3,byte4,0x00,0x00,byte5,byte6};
+    uint8_t lcd_set_segments[] =    {0x04,reverse(byte1),reverse(byte2),0x00,0x00,reverse(byte3),reverse(byte4),0x00,0x00,reverse(byte5),reverse(byte6)};
 	send_i2c(i2c_address_lcd,lcd_set_segments, sizeof(lcd_set_segments));
 }	
 }
