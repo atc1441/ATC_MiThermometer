@@ -8,11 +8,11 @@
 #include "i2c.h"
 #include "sensor.h"
 
-const uint8_t sens_wakeup[] = {0x35,0x17};
-const uint8_t sens_sleep[] = {0xB0,0x98};
-const uint8_t sens_reset[] = {0x80,0x5D};
+uint8_t sens_wakeup[] = {0x35,0x17};
+uint8_t sens_sleep[] = {0xB0,0x98};
+uint8_t sens_reset[] = {0x80,0x5D};
 
-const uint8_t measure_cmd[] = {0xfd};
+uint8_t measure_cmd[] = {0xfd};
 	
 //Since we now got version B1.4 B1.6 and B1.9 of the Thermometer we need to detect the correct sensor it is using
 // B1.4 = SHTC3 = 0 = address 0x70/0xE0
@@ -38,7 +38,7 @@ void init_sensor(){
 		sleep_us(240);
 		send_i2c(i2c_address_sensor,sens_sleep, sizeof(sens_sleep));
 	}else if(sensor_version == 1){
-		send_i2c(i2c_address_sensor,0x94, 1);	
+		send_i2c(i2c_address_sensor,(uint8_t *)0x94, 1);	
 		sleep_us(1000);
 	}else if(sensor_version == 2){
 		

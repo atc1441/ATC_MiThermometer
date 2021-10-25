@@ -8,6 +8,8 @@
 #include "i2c.h"
 #include "lcd.h"
 
+#define pm_wait_ms(t) cpu_stall_wakeup_by_timer0(t*CLOCK_SYS_CLOCK_1MS);
+
 const uint8_t lcd_init_cmd[] = {0x80,0x3B,0x80,0x02,0x80,0x0F,0x80,0x95,0x80,0x88,0x80,0x88,0x80,0x88,0x80,0x88,0x80,0x19,0x80,0x28,0x80,0xE3,0x80,0x11};
 RAM uint8_t display_buff[6];
 const uint8_t display_numbers[16] = {0xF5,0x05,0xD3,0x97,0x27,0xb6,0xf6,0x15,0xf7,0xb7,0x77,0xe6,0xf0,0xc7,0xf2,0x72};
@@ -41,19 +43,19 @@ void init_lcd(){
 		init_lcd_deepsleep();
 	
 	}else if(lcd_version == 2){// B1.9 Hardware
-		send_i2c(i2c_address_lcd,0xEA, 1);	
+		send_i2c(i2c_address_lcd,(uint8_t *)0xEA, 1);	
 		sleep_us(240);
-		send_i2c(i2c_address_lcd, 0xA4, 1);	
-		send_i2c(i2c_address_lcd, 0x9c, 1);	
-		send_i2c(i2c_address_lcd, 0xac, 1);	
-		send_i2c(i2c_address_lcd, 0xbc, 1);	
-		send_i2c(i2c_address_lcd, 0xf0, 1);	
-		send_i2c(i2c_address_lcd, 0xfc, 1);	
+		send_i2c(i2c_address_lcd, (uint8_t *)0xA4, 1);	
+		send_i2c(i2c_address_lcd, (uint8_t *)0x9c, 1);	
+		send_i2c(i2c_address_lcd, (uint8_t *)0xac, 1);	
+		send_i2c(i2c_address_lcd, (uint8_t *)0xbc, 1);	
+		send_i2c(i2c_address_lcd, (uint8_t *)0xf0, 1);	
+		send_i2c(i2c_address_lcd, (uint8_t *)0xfc, 1);	
 		
 		uint8_t lcd_3E_init_segments[] =  {0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 		send_i2c(i2c_address_lcd,lcd_3E_init_segments, sizeof(lcd_3E_init_segments));
 		
-		send_i2c(i2c_address_lcd, 0xc8, 1);	
+		send_i2c(i2c_address_lcd, (uint8_t *)0xc8, 1);	
 		return;
 	}		
 	send_to_lcd_long(0x00,0x00,0x00,0x00,0x00,0x00);	
@@ -154,18 +156,22 @@ void show_atc(){
 	send_to_lcd(0x00,0x00,0x05,0xc2,0xe2,0x77);
 }
 
+void show_sto(){
+	send_to_lcd(0x00,0x00,0x00,0xc6,0xe2,0xb6);
+}
+
 void show_atc_mac(){
 	extern u8  mac_public[6];
 	send_to_lcd(display_numbers[mac_public[2] &0x0f],display_numbers[mac_public[2]>>4],0x05,0xc2,0xe2,0x77);
-	sleep_ms(1800);
+	pm_wait_ms(1800);
 	send_to_lcd(0x00,0x00,0x05,0xc2,0xe2,0x77);
-	sleep_ms(200);
+	pm_wait_ms(200);
 	send_to_lcd(display_numbers[mac_public[1] &0x0f],display_numbers[mac_public[1]>>4],0x05,0xc2,0xe2,0x77);
-	sleep_ms(1800);
+	pm_wait_ms(1800);
 	send_to_lcd(0x00,0x00,0x05,0xc2,0xe2,0x77);
-	sleep_ms(200);
+	pm_wait_ms(200);
 	send_to_lcd(display_numbers[mac_public[0] &0x0f],display_numbers[mac_public[0]>>4],0x05,0xc2,0xe2,0x77);
-	sleep_ms(1800);
+	pm_wait_ms(1800);
 }
 
 void show_big_number(int16_t number, bool point){
