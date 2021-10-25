@@ -67,7 +67,7 @@ Also the BLE name will include the last three bytes of the MAC Address.
 ## Settings in custom firmware:
 The following settings can be sent to the RxTx Characteristics 0x1F10/0x1f1f
 
-These settings will not get saved on power loss. Maybe that will change in the future, but normally the battery will be in there for a while.
+These settings can be stored in the device by clicking the "Save current settings in flash" button or can be reset to default by clicking the "Reset settings to default" button.
 
 The **default value** is denoted by the option being written in **bold**
 
