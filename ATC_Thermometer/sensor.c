@@ -33,15 +33,13 @@ void init_sensor(){
 
 	if(sensor_version == 0){
 		send_i2c(i2c_address_sensor,sens_wakeup, sizeof(sens_wakeup));
-		pm_wait_us(240);
+		sleep_us(240);
 		send_i2c(i2c_address_sensor,sens_reset, sizeof(sens_reset));
-		pm_wait_us(240);
+		sleep_us(240);
 		send_i2c(i2c_address_sensor,sens_sleep, sizeof(sens_sleep));
 	}else if(sensor_version == 1){
 		send_i2c(i2c_address_sensor,(uint8_t *)0x94, 1);	
-		pm_wait_us(1000);
-		//already kick the measurment for the next reading
-		send_i2c(i2c_address_sensor,measure_cmd, sizeof(measure_cmd));	
+		sleep_us(1000);
 	}else if(sensor_version == 2){
 		
 	}else{
@@ -53,7 +51,7 @@ void read_sensor(int16_t *temp, uint16_t *humi){
 if(sensor_version == 0){
 	
 	send_i2c(i2c_address_sensor,sens_wakeup, sizeof(sens_wakeup));	
-	pm_wait_us(240);
+	sleep_us(240);
 	uint8_t read_buff[5];
 	reg_i2c_mode |= FLD_I2C_HOLD_MASTER;// Enable clock stretching for Sensor
 	i2c_set_id(i2c_address_sensor);
@@ -65,11 +63,11 @@ if(sensor_version == 0){
     *humi =  (100 *(read_buff[3] << 8 | read_buff[4]))>>16;
 	
 }else if(sensor_version == 1){
+	send_i2c(i2c_address_sensor,measure_cmd, sizeof(measure_cmd));	
+	sleep_us(1000*10);
 	uint8_t read_buff[5];
 	i2c_set_id(i2c_address_sensor);
 	i2c_read_series(0, 0, (uint8_t*)read_buff,  5);
-	//already kick the measurment for the next reading
-	send_i2c(i2c_address_sensor,measure_cmd, sizeof(measure_cmd));	
 
     *temp = ((1750*(read_buff[0]<<8 | read_buff[1]))>>16)-450;
     *humi =  (((1250 *(read_buff[3] << 8 | read_buff[4]))>>16)-60)/10;

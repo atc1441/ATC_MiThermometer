@@ -16,9 +16,6 @@ enum{
 	CLOCK_SYS_CLOCK_1US = (CLOCK_SYS_CLOCK_1S / 1000000),
 };
 
-#define pm_wait_ms(t) cpu_stall_wakeup_by_timer1(t *CLOCK_SYS_CLOCK_1MS);
-#define pm_wait_us(t) cpu_stall_wakeup_by_timer1(t *CLOCK_SYS_CLOCK_1US);
-
 ///////////////////////////////////// ATT  HANDLER define ///////////////////////////////////////
 typedef enum
 {

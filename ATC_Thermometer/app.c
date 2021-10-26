@@ -115,7 +115,10 @@ void main_loop(){
 
 		if((clock_time() - last_adv_delay) > (settings.advertising_type?5000:10000)*CLOCK_SYS_CLOCK_1MS){//Advetise data delay
 		    if(adv_count >= settings.advertising_interval){
-			set_adv_data(last_temp, last_humi, battery_level, battery_mv);
+				if(settings.advertising_temp_C_or_F)
+					set_adv_data(((((last_temp*10)/5)*9)+3200)/10, last_humi, battery_level, battery_mv);
+				else
+					set_adv_data(last_temp, last_humi, battery_level, battery_mv);
 			last_adv_delay = clock_time();
 			adv_count=0;
 		    }

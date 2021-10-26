@@ -15,6 +15,10 @@ void cmd_parser(void * p){
 		settings.temp_C_or_F = true;//Temp in F
 	}else if(inData == 0xCC){
 		settings.temp_C_or_F = false;//Temp in C
+	}else if(inData == 0x0F){
+		settings.advertising_temp_C_or_F = true;//Advertising Temp in F
+	}else if(inData == 0x0C){
+		settings.advertising_temp_C_or_F = false;//Advertising Temp in C
 	}else if(inData == 0xB1){
 		settings.show_batt_enabled = true;//Enable battery on LCD
 	}else if(inData == 0xB0){

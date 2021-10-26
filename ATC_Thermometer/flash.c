@@ -38,6 +38,7 @@ void reset_settings_to_default()
 	settings.len = sizeof(settings_struct);
 	
 	settings.temp_C_or_F = false;
+	settings.advertising_temp_C_or_F = false;
 	settings.blinking_smiley = false;
 	settings.comfort_smiley = true;
 	settings.show_batt_enabled = true;
