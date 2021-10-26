@@ -80,7 +80,10 @@ void main_loop(){
 			meas_count=0;
 		
 			if((temp-last_temp > settings.temp_alarm_point)||(last_temp-temp > settings.temp_alarm_point)||(humi-last_humi > settings.humi_alarm_point)||(last_humi-humi > settings.humi_alarm_point)){// instant advertise on to much sensor difference
-				set_adv_data(temp, humi, battery_level, battery_mv);
+				if(settings.advertising_temp_C_or_F)
+					set_adv_data(((((temp*10)/5)*9)+3200)/10, humi, battery_level, battery_mv);
+				else
+					set_adv_data(temp, humi, battery_level, battery_mv);
 			}
 			last_temp = temp;
 			last_humi = humi;
