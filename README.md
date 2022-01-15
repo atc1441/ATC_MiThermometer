@@ -157,6 +157,15 @@ The LYWSD03MMC sensors work out of the box with ESPHome. There are three ways to
 
 `platform: xiaomi_lywsd03mmc` is available since ESPHome 1.15, `platform: atc_mithermometer` since 1.16.
 
+## Using custom firmware with OpenMQTTGateway
+The LYWSD03MMC sensors work out of the box with [OpenMQTTGateway](https://docs.openmqttgateway.com/). You can directly upload OMG to the ESP32 from your web browser [here](https://docs.openmqttgateway.com/upload/web-install.html), choose `esp32dev-ble` or `esp32dev-ble-cont` (for continuous scanning).
+
+* With the original LYWSD03MMC firmware, OMG will connect to the sensor so as to retrieve the sensors values and publish to MQTT.
+* With the custom LYWSD03MMC firmware from this project, OMG will detect automatically the sensor and publish to MQTT.
+In both cases the sensor will be auto discovered in Home Assistant per default (no configuration needed if you are already using the MQTT integration with auto discovery).
+You can also follow this tutorial(https://1technophile.blogspot.com/2021/08/get-your-ble-sensors-data-into-home.html) for the Home Assistant integration.
+You can also integrate to OpenHAB or other MQTT compatible controllers
+
 ### Stock firmware:
 This .zip file contains the stock firmware to go back:
 https://github.com/pvvx/ATC_MiThermometer/files/7300157/LYWSD03MMC_0130_upd_miaomiaoce.sensor_ht.t2.zip
