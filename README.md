@@ -148,12 +148,14 @@ Example:
 0x0e, 0x16, 0x1a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xaa, 0xaa, 0xbb, 0xcc, 0xdd, 0xdd, 0x00
 
 ## Using custom firmware with ESPHome
-The LYWSD03MMC sensors work directly with ESPHome XiaomiBLE - [xiaomi_lywsd03mmc component](https://esphome.io/components/sensor/xiaomi_ble.html#lywsd03mmc).
+The LYWSD03MMC sensors work out of the box with ESPHome. There are three ways to use them:
 
-Set "Mi like" advertising on custom firmware. The bindkey is not necessary any more as the payload is not encrypted in the custom firmware. However, since the bindkey is a mandatory parameter, you still need to give it a fake one in the config file. It can be anything though, as long as it is formatted like a real one.
+* With the original firmware by using the [`xiaomi_lywsd03mmc` sensor platform](https://esphome.io/components/sensor/xiaomi_ble.html#lywsd03mmc). For this, you need to [obtain the bindkey](https://esphome.io/components/sensor/xiaomi_ble.html#obtaining-the-bindkey).
+* With the custom firmware from this project, either by
+  * using [`platform: atc_mithermometer` in ESPHome](https://esphome.io/components/sensor/xiaomi_ble.html#lywsd03mmc) when the firmware is configured to an advertising type of “custom” (the default) or
+  * setting the firmware to “Mi Like” advertisement and using `platform: xiaomi_lywsd03mmc` with 32 arbitrary hex digits as the bindkey, e.g. `eef418daf699a0c188f3bfd17e4565d9`. (This works because the values in the broadcast are not encrypted when using this firmware, but `bindkey` is still a required parameter.)
 
-Details:
-https://github.com/esphome/feature-requests/issues/552#issuecomment-688049747
+`platform: xiaomi_lywsd03mmc` is available since ESPHome 1.15, `platform: atc_mithermometer` since 1.16.
 
 ### Stock firmware:
 This .zip file contains the stock firmware to go back:
