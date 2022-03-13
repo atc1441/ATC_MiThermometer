@@ -21,6 +21,8 @@ class ScanDelegate(DefaultDelegate):
     
     def parseData(self, val):
         bytes = [int(val[i:i+2], 16) for i in range(0, len(val), 2)]
+        if bytes[8] > 127:
+            bytes[8] -= 256
         return {
             'timestamp': datetime.now().astimezone().replace(microsecond=0).isoformat(),
             'mac': ":".join(["{:02X}".format(bytes[i]) for i in range(2,8)]),
