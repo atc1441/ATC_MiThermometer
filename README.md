@@ -99,7 +99,7 @@ Will show Battery % (when the battery symbol is displayed at the bottom of the s
 
 0xAF = Mi Like
 
-### Advertising interval
+### New measurement interval (How often the Temperature reading changes in the BLE Advertising data) Does not influence the battery uasge.
 byte0 0xFE
 
 byte1 0x06 - value times 10 seconds = interval **60 seconds default**.
