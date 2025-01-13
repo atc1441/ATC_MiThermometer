@@ -7,7 +7,7 @@ This repo is made together with this explanation video:(click on it)
 
 [![YoutubeVideo](https://img.youtube.com/vi/NXKzFG61lNs/0.jpg)](https://www.youtube.com/watch?v=NXKzFG61lNs)
 
-### Download of version 2.1.1_0159 Exploit firmware: [ATC_Exploit.bin](ATC_Exploit.bin)  
+### Download of version 2.1.1_0159 Exploit firmware, this exploit will only work on 2.1.1_0159: [ATC_Exploit.bin](ATC_Exploit.bin)  
 
 Signed OTA exploit manual and demo video:(click on it)
 
