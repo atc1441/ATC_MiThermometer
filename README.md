@@ -7,6 +7,15 @@ This repo is made together with this explanation video:(click on it)
 
 [![YoutubeVideo](https://img.youtube.com/vi/NXKzFG61lNs/0.jpg)](https://www.youtube.com/watch?v=NXKzFG61lNs)
 
+### Download of version 2.1.1_0159 Exploit firmware: [ATC_Exploit.bin](ATC_Exploit.bin)  
+
+Signed OTA exploit manual and demo video:(click on it)
+
+[![YoutubeVideo](https://img.youtube.com/vi/NfZHh6wmTp8/0.jpg)](https://www.youtube.com/watch?v=NfZHh6wmTp8)
+
+
+
+
 ##### Victor @pvvx did some very nice refinings of this custom firmare so i really suggest on cheking it out and even use his version as it offers many more functions including non-volatile storage and a better low power management https://github.com/pvvx/ATC_MiThermometer
 
 It is possible to update the Firmware of the Xiaomi Thermometer OTA with this WEB Tool I wrote:
